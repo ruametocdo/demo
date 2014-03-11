@@ -14,4 +14,5 @@ $name = $users[0]['fullname'];
 ?>
 <div>
     <p><label>Name</label><input type="text" value="" /></p>
+      <p><label>email</label><input type="text" value="" /></p>
 </div>

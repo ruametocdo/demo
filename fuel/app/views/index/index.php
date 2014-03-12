@@ -4,7 +4,7 @@
 <div>
     <?php foreach ($items as $key => $value): ?>
     <p>
-        <label><?php echo $value['fullname'] . ' / ' . $value['gender'] ?></label>
+        <label><?php echo $value['username'] . ' / ' . $value['gender'] ?></label>
    <textarea rows="4" cols="50">
     <?php echo $value['content']  ?>
    </textarea>

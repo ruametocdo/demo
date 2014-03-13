@@ -1,20 +1,12 @@
 <?php
 
-class Model_User extends Orm\Model {
+class Model_User extends Fuel\Core\Model_Crud {
 
-    protected static $_properties = array(
-        'id',
-        'username',
-        'password',
-        'group',
-        'email',
-        'last_login',
-        'login_hash',
-        'profile_fields',
-        'created_at',
-        'updated_at',
-    );
-
+    protected static $_table_name = 'users';
+    public static function all_items(){
+        return Model_User::find_all();
+    }
+   
     
 
 }

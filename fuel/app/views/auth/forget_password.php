@@ -1,24 +1,26 @@
-<?php
-if (isset($errors)) {
-    echo '<pre>';
-    print_r($errors);
-    echo '</pre>';
-}
-?>
+<?php if (count($errors)): ?>
+<div class="error"><?php echo $errors[0] ?></div>
+<?php endif; ?>
 <?php if($success): ?>
-We sent a email to you 
-Click the link in the email to change password
-<?php else: ?>
-<?php echo \Fuel\Core\Form::open(); ?>
-<p> 
-    <label for="email">Email:</label>
-<div class="input"><?php echo Form::input('email', Input::post('email')); ?></div>
-</p>   
-<p>
-<div class="actions">
-<?php echo Form::submit(array('value' => 'Send Email', 'name' => 'submit')); ?>
+<div class="text01">
+    <p>We sent a email to you </p>
+    <p>Click the link in the email to change password</p>
 </div>
-</p>
-</form><?php echo \Fuel\Core\Form::close(); ?>
+<?php else: ?>
+<fieldset class="pageForm">	
+    <?php echo \Fuel\Core\Form::open(); ?>
+     <ul class="noBorder">
+     	<li class="clearfix">
+        	<span>Email</span>
+                <input type="text" name="email" value="" placeholder="your email"/>
+        </li>
+       
+        <li>
+        	<input type="submit" name="" value="Send email" class="pageAction"/>
+        </li>
+       
+     </ul>
+    </form><?php echo \Fuel\Core\Form::close(); ?>
+  </fieldset>
 <?php endif; ?>
 

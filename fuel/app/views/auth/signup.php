@@ -1,42 +1,33 @@
-<?php if (isset($errors)){ 
-     echo '<pre>';
-     print_r($errors);
-     echo '</pre>';
-    } ?>
+<fieldset class="pageForm">
+    <legend>Sinup:</legend>
+    <a href="#" class="facebookLogin">Facebook Login</a>
 <?php echo Form::open(array()); ?>
-<p> 
-    <label for="username">Username:</label>
-<div class="input"><?php echo Form::input('username', Input::post('username')); ?></div>
-</p>
-<p> 
-    <label for="email">Email:</label>
-<div class="input"><?php echo Form::input('email', Input::post('email')); ?></div>
-</p>
-
-<p> 
-    <label for="password">Password:</label>
-<div class="input"><?php echo Form::password('password'); ?></div>
-</p>
-
-<p> 
-    <label for="password">Confirm Password:</label>
-<div class="input"><?php echo Form::password('password2');
-; ?></div>
-</p>
-
-<p>
-    <?php
-    echo Form::label('Male', 'gender');
-    echo Form::radio('gender', 'Male', true);
-    echo Form::label('Female', 'gender');
-    echo Form::radio('gender', 'Female');
-    echo Form::label('None', 'gender');
-    echo Form::radio('gender', 'None');
-    ?>
-</p>
-<p>
-<div class="actions">
-<?php echo Form::submit(array('value' => 'Signup', 'name' => 'submit')); ?>
-</div>
-</p>
+    <ul>
+        <li class="clearfix">
+            <span>UserName</span>
+            <input type="text" name="username" value="" placeholder="username"/>
+        </li>
+        <li class="clearfix">
+            <span>Email</span>
+            <input type="text" name="email" value="" placeholder="email"/>
+        </li>
+        <li class="clearfix">
+            <span>Password</span>
+            <input type="password" name="password" value="" placeholder="password"/>
+        </li>
+        <li class="clearfix">
+            <span>Confirm Password</span>
+            <input type="password" name="password2" value="" placeholder="confirm password"/>
+        </li>
+        <li>
+            <span>gender</span>
+            <input type="radio"  name="gender" value="male" class="radio"/> male  
+            <input type="radio"  name="gender" value="female" class="radio"/> female  
+            <input type="radio"  name="gender" value="none" class="radio"/> none
+        </li>       
+        <li class="p20b0">
+            <input type="submit" name="" value="login" class="pageAction"/>
+        </li>        
+    </ul>
 <?php echo Form::close(); ?>
+</fieldset>

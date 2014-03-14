@@ -1,27 +1,24 @@
-<?php
-if (isset($errors)) {
-    echo '<pre>';
-    print_r($errors);
-    echo '</pre>';
-}
-?>
+<?php if (count($errors)): ?>
+<div class="error"><?php echo $errors[0] ?></div>
+<?php endif; ?>
 <?php if($success): ?>
-Change password success
-<?php else: ?>
-<?php echo Form::open(array()); ?>
-<p> 
-    <label for="password">New Password:</label>
-<div class="input"><?php echo Form::password('password'); ?></div>
-</p>
-<p> 
-    <label for="password">Confirm New Password:</label>
-    <div class="input">
-        <?php echo Form::password('password2'); ?>
-    </div>
-</p>
-<div class="actions">
-    <?php echo Form::submit(array('value' => 'Send', 'name' => 'submit')); ?>
+<div class="text01">
+     <p class="title">Creating new password is complte! </p>
 </div>
-</p>
-<?php echo Form::close(); ?>
+<?php else: ?>
+<fieldset class="pageForm">
+   <?php echo Form::open(array()); ?>
+      <ul class="noBorder">
+        <li class="clearfix"> <span>new password</span>
+            <input type="password" name="password" value="" placeholder="new password"/>
+        </li>
+        <li class="clearfix"> <span>confirm new password</span>
+            <input type="password" name="password2" value="" placeholder="confirm new password" />
+        </li>
+        <li>
+          <input type="submit" name="" value="Send" class="pageAction"/>
+        </li>
+      </ul>
+ <?php echo Form::close(); ?>
+  </fieldset>
 <?php endif; ?>

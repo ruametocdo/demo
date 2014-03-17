@@ -16,15 +16,29 @@ class Model_Comment extends \Fuel\Core\Model_Crud
         }
     }
 
-    public static function get_comments_for_all_user($select = array())
+    public static function get_comments_for_all_user($select = array(), $where = null, $limit = 4)
     {
-        $result = \Fuel\Core\DB::select_array($select)
-                ->from('comments')
-                ->join('users', 'Left')
-                ->on('comments.user_id', '=', 'users.id')
-                ->order_by('comments.created','desc')
-                ->execute()
-                ->as_array();
+        if ($where) {
+            $result = \Fuel\Core\DB::select_array($select)
+                    ->from('comments')
+                    ->join('users', 'Left')
+                    ->on('comments.user_id', '=', 'users.id')
+                    ->order_by('comments.id', 'desc')
+                    ->where('comments.id', '<', $where)
+                    ->limit($limit)
+                    ->execute()
+                    ->as_array();
+        } else {
+             $result = \Fuel\Core\DB::select_array($select)
+                    ->from('comments')
+                    ->join('users', 'Left')
+                    ->on('comments.user_id', '=', 'users.id')
+                    ->order_by('comments.id', 'desc')
+                   // ->where('comments.id', '<', $where)
+                    ->limit($limit)
+                    ->execute()
+                    ->as_array();
+        }
         if ($result) {
             return $result;
         } else {

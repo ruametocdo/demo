@@ -1,6 +1,10 @@
+<?php if (isset($errors)): ?>
+<div class="error"><?php echo $errors[0] ?></div>
+<?php endif; ?>
 <fieldset class="pageForm">
   	 <legend>Login:</legend>
-     <a href="#" class="facebookLogin">Facebook Login</a>
+     
+     <?php echo Fuel\Core\Html::anchor('auth/login?login_facebook=1', 'Facebook Login', array('class'=>'facebookLogin')) ?>
     <?php echo \Fuel\Core\Form::open(); ?>
      <ul>
      	<li class="clearfix">
@@ -18,7 +22,7 @@
         	<input type="submit" name="key" value="login" class="pageAction"/>
         </li>
         <li>
-        	<a href="" class="forget">forget Password?</a>
+                <?php echo \Fuel\Core\Html::anchor('auth/forget_password/', 'forget Password?'); ?>
         </li>
      </ul>
     <?php echo \Fuel\Core\Form::close(); ?>

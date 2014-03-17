@@ -8,41 +8,33 @@
 
     <body>
         <div id="headerWrap" class="clearfix">
-            <h1>Fuel Auth App</h1>
-            <ul class="userTopInfo clearfix">
-                <li class="userName"> <img src="img/ico_face.png" width="40" height="40" alt="" />
-                    <h2>
-                        <?php
-                        if ($current_user) {
-                            echo $current_user->username;
-                        }
-                        ?>
-                    </h2>
-                </li>
-                <li class="anchorLink"> <a href="user/mypage/"><span>My Page</span></a> </li>
-                <li class="anchorLink"> <a href="#" class="logout"><span>Logout</span></a> </li>
-            </ul>
+            <h1>My Page</h1>
+            <p class="goBackApp">
+                <a href="/">Go Back App</a>
+            </p>
             <!-- ./headerWrap--> 
         </div>
-        <div id="container">
-<?php echo $content; ?>
-            <!-- ./headerWrap--> 
+        <div id="container" class="clearfix"> 
+            <?php echo $content; ?>
         </div>
         <div id="footerWrap"></div>
         <div class="loginFormWrap"></div>
         <div class="logoutForm">
-            <h3>Logout ?</h3>
+            <h3>confirm Password</h3>
+            <?php echo \Fuel\Core\Form::open(array('action'=>'user/email_edit')); ?>
             <div class="boxLogoutForm">    
-                <input type="button" name="key" value="Yes" class="logoutInput"/>
-                <input type="button" name="key" value="No" class="no"/>   
+                <input type="text" name="password" value="" class="passPopup" />
+                <input type="hidden" name="option" value="confirm_pass" />
+                <input type="submit" name="" value="send" class="sendPopup"/>
             </div>
+            <?php echo Form::close(); ?>
         </div>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> 
         <script type="text/javascript">
             $(document).ready(function() {
                 $('.loginFormWrap').hide();
                 $('.logoutForm').hide();
-                $('.logout').click(function() {
+                $('.edit-email-action').click(function() {
                     var form = $('.loginFormWrap');
                     var logForm = $('.logoutForm');
                     form.show();
@@ -52,16 +44,8 @@
                     $('.loginFormWrap').hide();
                     $('.logoutForm').hide();
                 });
-                $('.logoutInput').click(function() {
-                    $(location).attr('href', "<?php echo 'http://' . $base_url . 'auth/logout'; ?>")
-                });
-                $('.more').click(function() {
-                    var last_id = $('#last-item').val();
-                    var postdata = $.post('http://demo.dev/mainpage/more_comment', {last_id: last_id} );
-                    postdata.done(function(data){
-                        console.log(data);
-                    });
-                });
+                
+
             });
 
             var mHeight = window.outerHeight;

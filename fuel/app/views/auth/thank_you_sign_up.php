@@ -5,5 +5,6 @@
 
     <p>We sent a Email to you</p>
     <p>Click the link in the Email, must be a valid member</p>
-    <a href="#" class="goback">Go back login Form</a>
+    
+    <?php echo \Fuel\Core\Html::anchor('auth/login/', 'Go back login Form', array('class'=>'goback')); ?>
 </div>

@@ -7,10 +7,19 @@
     </head>
 
     <body>
-        <?php if(isset($title2)): ?>
-        <div id="headerWrap" class="clearfix">
-            <h1><?php echo $title2; ?></h1>
-        </div>
+        <?php if (isset($title2)): ?>
+            <div id="headerWrap" class="clearfix">
+                <h1><?php echo $title2; ?></h1>
+                <?php if (isset($gobackTitle) || isset($gobackLink)): ?>
+                <p class="goBackApp">
+                    <?php
+                        $gobackLink = isset($gobackLink) ? $gobackLink : '#';
+                        $gobackTitle = isset($gobackTitle) ? $gobackTitle : '';
+                        echo \Fuel\Core\Html::anchor($gobackLink, $gobackTitle)
+                    ?>
+                </p>
+                <?php endif; ?>
+            </div>
         <?php endif; ?>
         <div id="container">
             <?php echo $content; ?>

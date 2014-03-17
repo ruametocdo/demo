@@ -85,7 +85,7 @@ class Auth_Login_Simpleauth extends \Auth_Login_Driver
 			if (is_null($this->user) or ($this->user['username'] != $username and $this->user != static::$guest_login))
 			{
 				$this->user = \DB::select_array(\Config::get('simpleauth.table_columns', array('*')))
-					->where('username', '=', $username)
+					->where('email', '=', $username)
 					->from(\Config::get('simpleauth.table_name'))
 					->execute(\Config::get('simpleauth.db_connection'))->current();
 			}
@@ -129,8 +129,9 @@ class Auth_Login_Simpleauth extends \Auth_Login_Driver
 		$password = $this->hash_password($password);
 		$user = \DB::select_array(\Config::get('simpleauth.table_columns', array('*')))
 			->where_open()
-			->where('username', '=', $username_or_email)
-			->or_where('email', '=', $username_or_email)
+			//->where('username', '=', $username_or_email)
+			->where('email', '=', $username_or_email)
+                        ->and_where('active','=',1)
 			->where_close()
 			->where('password', '=', $password)
 			->from(\Config::get('simpleauth.table_name'))
@@ -159,7 +160,7 @@ class Auth_Login_Simpleauth extends \Auth_Login_Driver
 		// register so Auth::logout() can find us
 		Auth::_register_verified($this);
 
-		\Session::set('username', $this->user['username']);
+		\Session::set('username', $this->user['email']);
 		\Session::set('login_hash', $this->create_login_hash());
 		\Session::instance()->rotate();
 		return true;
@@ -181,6 +182,7 @@ class Auth_Login_Simpleauth extends \Auth_Login_Driver
 		$this->user = \DB::select_array(\Config::get('simpleauth.table_columns', array('*')))
 			->where_open()
 			->where('id', '=', $user_id)
+                        ->and_where('active','=',1)
 			->where_close()
 			->from(\Config::get('simpleauth.table_name'))
 			->execute(\Config::get('simpleauth.db_connection'))
@@ -194,7 +196,7 @@ class Auth_Login_Simpleauth extends \Auth_Login_Driver
 			return false;
 		}
 
-		\Session::set('username', $this->user['username']);
+		\Session::set('username', $this->user['email']);
 		\Session::set('login_hash', $this->create_login_hash());
 		return true;
 	}

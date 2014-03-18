@@ -54,7 +54,7 @@ class Controller_User extends Controller_Myapp
                     $icon_data = Upload::get_files();
                 }
                 if (isset($icon_data)) {
-                    $post['image'] = $this->current_user->id . '.' . $icon_data[0]['extension'];
+                    $post['image'] = $this->current_user->id . '-' . time() . '.' . $icon_data[0]['extension'];
                     rename(DOCROOT . 'files/' . $icon_data[0]['saved_as'], DOCROOT . 'files/' . $post['image']);
                 }
                 if (isset($post['hobby'])) {

@@ -10,7 +10,12 @@
         <div id="headerWrap" class="clearfix">
             <h1>Fuel Auth App</h1>
             <ul class="userTopInfo clearfix">
-                <li class="userName"> <img src="img/ico_face.png" width="40" height="40" alt="" />
+                <li class="userName"> 
+                    <?php if(isset($current_user->image)): ?>
+                    <img src="/files/<?php echo $current_user->image ?>" width="40" height="40" alt="" />
+                    <?php else: ?>
+                    <img src="/files/img/ico_face.png" width="40" height="40" alt="" />
+                    <?php endif; ?>
                     <h2>
                         <?php
                         if ($current_user) {
@@ -84,6 +89,8 @@
                         $('#input_comment').val('');
                         $(".listComments").empty().html(data);
                     });
+                     total_record = parseInt($('#total').val());
+                     $('#total_record').text(total_record);
                 });
             });
 
@@ -91,6 +98,7 @@
             $(document).ready(function() {
                 $('.loginFormWrap').css('height', mHeight);
                 $('#show_record').text($('#num_record').val());
+                $('#total_record').text($('#total').val());
             });
 
         </script>

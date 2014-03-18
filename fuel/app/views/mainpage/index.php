@@ -51,7 +51,7 @@ if (isset($errors)) {
     <?php echo Form::open(array('action' => 'mainpage/more_comment', 'id' => 'form_read_more')); ?>
 
     <div class="read-more"> <a href="#" class="more"><span>Read More</span></a>
-        <p class="record"><span id="show_record"></span> record &frasl; <span id="total_record"><?php if ($total) echo $total; ?></span> record</p>
+        <p class="record"><span id="show_record"></span> record &frasl; <span id="total_record"></span> record</p>
     </div>
     <?php echo Form::close(); ?>
 <?php endif; ?>

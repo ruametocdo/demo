@@ -12,50 +12,60 @@ class Controller_Mainpage extends Controller_Myapp
 
     public function action_index()
     {
-        $view = Fuel\Core\View::forge('mainpage/index');
         $select = array('users.id', 'username', 'email', 'gender', 'image', 'comments.id', 'content', 'comments.created');
-        $result = Model_Comment::get_comments_for_all_user($select);
-
+        $data['comments'] = Model_Comment::get_comments_for_all_user($select);
         $post = \Fuel\Core\Input::post();
-        if ($post && $this->current_user) {
-            $val = Fuel\Core\Validation::forge();
-            $val->add('comment', 'Your comment')->add_rule('required');
-            if ($val->run()) {
-                $arr_item = array(
-                    'content' => $post['comment'],
-                    'user_id' => $this->current_user->id,
-                    'created' => Date::forge()->get_timestamp()
-                );
-                Model_Comment::add_comment($arr_item);
-            } else {
-                foreach ($val->error_message() as $field => $message) {
-                    $errors[] = $message;
-                }
+        if ( $data['comments']) {
+            $enditem = end($data['comments']);
+            $data['end_id'] = $enditem['id'];
+        }
+        $data['num'] = !empty($data['comments']) ? count($data['comments']) : 0;
+        $data['total'] = Model_Comment::total_record();
+       
+        $this->template->content = View::forge('mainpage/index', $data);
+        $this->template->title = 'User &raquo; Comment';
+    }
 
-                $view->set('errors', $errors);
+    public function action_add_comment()
+    {
+        $data = array();
+        if ($post = \Fuel\Core\Input::post('comment')) {
+            $val = \Fuel\Core\Validation::forge();
+            $val->add_field('comment', 'Comment', 'trim|required');
+            if ($val->run()) {
+                Model_Comment::add_comment($post, $this->current_user->id);
+            } else {
+                $data['error'] = $val->error_message();
             }
         }
-        if ($result) {
-            $enditem = end($result);
-            $view->set('end_id', $enditem['id']);
-        }
-        $this->template->title = 'User &raquo; Comment';
+        $select = array('users.id', 'username', 'email', 'gender', 'image', 'comments.id', 'content', 'comments.created');
+        $data['comments'] = Model_Comment::get_comments_for_all_user($select);
 
-        $view->set('items', $result);
-        $this->template->content = $view;
+        if (!empty($data['comments'])) {
+            $end_comment = end($data['comments']);
+            $data['end_id'] = $end_comment['id'];
+        }
+        $data['num'] = !empty($data['comments']) ? count($data['comments']) : 0;
+        $data['total'] = Model_Comment::total_record();
+        return new Response(View::forge('mainpage/comment', $data));
     }
 
     public function action_more_comment()
     {
-        $view = Fuel\Core\View::forge('mainpage/more_comment');
-//        if ($post = \Fuel\Core\Input::post()) {
-//            $select = array('users.id', 'username', 'email', 'gender', 'image', 'comments.id', 'content', 'comments.created');
-//            $result = Model_Comment::get_comments_for_all_user($select, $post['last_id']);
-//        }
-       
-//        if($result)
-//            $view->set('items', $result);
-        $this->template->content = $view;
+        $data = array();
+        if ($post = \Fuel\Core\Input::post()) {
+            $select = array('users.id', 'username', 'email', 'gender', 'image', 'comments.id', 'content', 'comments.created');
+            $data['comments'] = Model_Comment::get_comments_for_all_user($select, $post['last_id']);
+            if (!empty($data['comments'])) {
+                $end_comment = end($data['comments']);
+                $data['end_id'] = $end_comment['id'];
+                $num = count($data['comments']);
+            }
+            $num += $post['num'];
+        }
+        $data['num'] = !empty($num) ? $num : 0;
+        $data['total'] = Model_Comment::total_record();
+        return new Response(View::forge('mainpage/comment', $data));
     }
 
 }

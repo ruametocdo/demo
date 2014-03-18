@@ -8,11 +8,11 @@ if (isset($errors)) {
 }
 ?>
 <div class="commentWrap">
-    <?php echo Form::open(array()); ?>
+    <?php echo Form::open(array('action' => 'mainpage/add_comment', 'id' => 'form_add_comment')); ?>
     <table>
         <tr>
             <th>Add Comment :
-                <input type="text" name="comment" value="" class="comments" />
+                <input type="text" name="comment" value="" class="comments" id="input_comment" />
             </th>
             <td>
                 <input type="submit" value="send" class="send"/>
@@ -23,16 +23,16 @@ if (isset($errors)) {
     <?php echo Form::close(); ?>
     <div class="error"><?php echo $errorStr; ?> </div>
 </div>
-<?php if ($items): ?>
+<?php if ($comments): ?>
     <ul class="listComments">
 
-        <?php foreach ($items as $key => $value): ?>
+        <?php foreach ($comments as $key => $value): ?>
             <li class="clearfix">
                 <div class="viewFace">
-                    <?php if($value['image']): ?>
-                     <img src="/files/<?php echo $value['image'] ?>" width="100" height="100" alt="" />
+                    <?php if ($value['image']): ?>
+                        <img src="/files/<?php echo $value['image'] ?>" width="100" height="100" alt="" />
                     <?php else: ?>
-                    <img src="/assets/img/ico_face.png" width="100" height="100" alt="" />
+                        <img src="/assets/img/ico_face.png" width="100" height="100" alt="" />
                     <?php endif; ?>
                     <h3><?php echo $value['username']; ?>/<?php echo $value['gender']; ?></h3>
                 </div>
@@ -43,12 +43,15 @@ if (isset($errors)) {
 
             </li>
         <?php endforeach; ?>        
-
+        
+        <input type="hidden" name="last_item" value="<?php if ($end_id) echo $end_id; ?>" id="last_item" />
+        <input type="hidden" name="num" value="<?php if ($num) echo $num; ?>" id="num_record" />
+        <input type="hidden" name="total" value="<?php if ($total) echo $total; ?>" id="total" />
     </ul>
-    <?php echo Form::open(array('action' => 'mainpage/more_comment')); ?>
-    <input type="hidden" name="" value="<?php if($end_id) echo $end_id; ?>" id="last-item" />
+    <?php echo Form::open(array('action' => 'mainpage/more_comment', 'id' => 'form_read_more')); ?>
+
     <div class="read-more"> <a href="#" class="more"><span>Read More</span></a>
-        <p class="record"><span>10</span> record &frasl; <span>28</span> record</p>
+        <p class="record"><span id="show_record"></span> record &frasl; <span id="total_record"><?php if ($total) echo $total; ?></span> record</p>
     </div>
     <?php echo Form::close(); ?>
 <?php endif; ?>

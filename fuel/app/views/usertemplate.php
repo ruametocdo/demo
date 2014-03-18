@@ -23,7 +23,7 @@
             <h3>confirm Password</h3>
             <?php echo \Fuel\Core\Form::open(array('action'=>'user/email_edit')); ?>
             <div class="boxLogoutForm">    
-                <input type="text" name="password" value="" class="passPopup" />
+                <input type="password" name="password" value="" class="passPopup" />
                 <input type="hidden" name="option" value="confirm_pass" />
                 <input type="submit" name="" value="send" class="sendPopup"/>
             </div>

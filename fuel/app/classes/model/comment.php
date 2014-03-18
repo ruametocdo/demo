@@ -5,8 +5,13 @@ class Model_Comment extends \Fuel\Core\Model_Crud
 
     protected static $_table_name = 'comments';
 
-    public static function add_comment($arr_item = array())
+    public static function add_comment($content = null,$user_id = null)
     {
+        $arr_item = array(
+                    'content' => $content,
+                    'user_id' => $user_id,
+                    'created' => Date::forge()->get_timestamp()
+                );
         $comment = Model_Comment::forge()->set($arr_item);
         try {
             if ($comment->save())
@@ -45,5 +50,10 @@ class Model_Comment extends \Fuel\Core\Model_Crud
             return false;
         }
     }
+    public static function total_record()
+	{
+		$result = \Fuel\Core\DB::select('*')->from('comments')->execute();
+		return count($result);
+	}
 
 }

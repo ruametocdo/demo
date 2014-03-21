@@ -42,25 +42,26 @@ class Cron
      */
     public static function run()
     {
-        $getUsers = \Model_User::find(array(
-                    "select" => array('id', 'email', 'username'),
-                    'where' => array(
-                        'cronmail' => 1
-                    ),
-        ));
+        \Fuel\Core\Config::load('app', true);
+        $config = \Fuel\Core\Config::get('app.cron_mail');
+        $day = date('D');
+        $hobbyId = $config["$day"][0];
+        $hobbyName = \Model_Hobby::find_one_by('id', $hobbyId)->title;
+
+        $data = \Model_UserHobby::get_user_for_hobby($hobbyId);
         $email = \Email\Email::forge(array('driver' => 'smtp'));
-        foreach ($getUsers as $item) {
+        foreach ($data as $item) {
             $from = 'datht83@gmail.com';
-            $to = $item->email;
-            $subject = 'Hi ' . $item->username;
-            $body = "hello i m fuel";
+            $to = $item['email'];
+            $subject = 'Hi ' . $item['username'];
+            $body = "<p>hello i m fuel</p><p>your hobby is " . $hobbyName . ".</p><p><good by/p>";
             $namefrom = 'dat huynh';
-            $nameto = $item->username;
+            $nameto = $item['username'];
             $email->from($from, $namefrom);
             $email->to($to, $nameto);
             $email->subject($subject);
-            $email->body($body);
-            $email->send();  
+            $email->html_body($body);
+            $email->send();
         }
     }
 

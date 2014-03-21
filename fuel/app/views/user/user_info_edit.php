@@ -3,12 +3,13 @@ $name = isset($user->username) ? $user->username : '';
 $email = isset($user->email) ? $user->email : '';
 $gender = isset($user->gender) ? $user->gender : '';
 
-$hobby = isset($user->hobby) ? $user->hobby : '';
-$hobby = explode(',', $hobby);
+//$hobby = isset($user->hobby) ? $user->hobby : '';
+//$hobby = explode(',', $hobby);
 
 $image = isset($user->image) ? $user->image : '';
 $cronmail = isset($user->cronmail) ? $user->cronmail : 1;
 $notshow = isset($user->notshow) ? $user->notshow : 0;
+
 ?>
 <?php if (isset($errors)): ?>
     <div class="error"><?php echo $errors[0] ?></div>
@@ -64,9 +65,11 @@ $notshow = isset($user->notshow) ? $user->notshow : 0;
             </li>           
             <li class="clearfix">
                 <span>Hobby : </span>
-                <input type="checkbox" name="hobby[]" class="userRadio" value="football" <?php if (in_array('football', $hobby)): ?> checked="checked" <?php endif; ?> /> Football
-                <input type="checkbox" name="hobby[]" class="userRadio" value="baseball" <?php if (in_array('baseball', $hobby)): ?> checked="checked" <?php endif; ?> /> Baseball    
-                <input type="checkbox" name="hobby[]" class="userRadio" value="tennis" <?php if (in_array('tennis', $hobby)): ?> checked="checked" <?php endif; ?> /> Tennis   
+                <?php if(isset($hoppies)): ?>
+                <?php foreach ($hoppies as $hobby): ?>
+                <input type="checkbox" name="hobby[]" class="userRadio" value="<?php echo $hobby->id; ?>" <?php if(Model_UserHobby::check_hobby_for_user($current_user->id, $hobby->id)) echo 'checked="checked"'; ?>  /> <?php echo $hobby->title; ?>
+                <?php endforeach; ?>
+                <?php endif; ?>
             </li>
             <li class="clearfix">
                 <span>&nbsp;</span><input type="submit" name="" value="save" class="userActions"/>

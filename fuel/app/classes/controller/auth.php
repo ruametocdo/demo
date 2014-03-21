@@ -6,22 +6,6 @@ class Controller_Auth extends Controller_Myapp
 {
 
     public $template = 'authtemplate';
-
-//    private function generate_code($email = null)
-//    {
-//        $random_number = rand(1000000, 9999999);
-//        return md5($random_number . $email);
-//    }
-//    private function send_mail($from, $to, $subject = null, $body = null, $namefrom = null, $nameto = null)
-//    {
-//        $email = \Email\Email::forge(array('driver' => 'smtp'));
-//        $email->from($from, $namefrom);
-//        $email->to($to, $nameto);
-//        $email->subject($subject);
-//        $email->body($body);
-//        $email->send();
-//    }
-
     private function login_facebook()
     {
         $view = Fuel\Core\View::forge('auth/login_facebook');

@@ -2,10 +2,14 @@
 $name = isset($user->username) ? $user->username : '';
 $email = isset($user->email) ? $user->email : '';
 $gender = isset($user->gender) ? $user->gender : '';
-
-$hobby = isset($user->hobby) ? $user->hobby : '';
-$hobby = explode(',', $hobby);
-
+$hobby = '';
+if(isset($hobbies)){
+    
+    foreach ($hobbies as $value){
+        $hobby .= $value['title'] . ' ,';
+    }
+    $hobby = substr($hobby, 0,-1);
+}
 $image = isset($user->image) ? $user->image : '';
 $cronmail = isset($user->cronmail) ? $user->cronmail : 1;
 $notshow = isset($user->notshow) ? $user->notshow : 0;
@@ -42,7 +46,7 @@ $notshow = isset($user->notshow) ? $user->notshow : 0;
                 <span>Gender : </span><?php echo $user->gender; ?>
             </li>
             <li class="clearfix">
-                <span>Hobby : </span><?php if (isset($user->hobby)) echo $user->hobby; ?>
+                <span>Hobby : </span><?php  echo $hobby; ?>
             </li>
             <li class="clearfix">
                 <span>Icon : </span><?php if ($image != ''): ?>

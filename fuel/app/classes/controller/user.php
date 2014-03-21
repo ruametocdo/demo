@@ -17,6 +17,11 @@ class Controller_User extends Controller_Myapp
         $view = Fuel\Core\View::forge('user/mypage');
         $data = Model_User::find_one_by('id', $this->current_user->id);
         $view->set('user', $data);
+         //hoppy
+        $hobbies = Model_UserHobby::get_items_for_user($this->current_user->id);       
+        if($hobbies){
+             $view->set('hobbies', $hobbies);
+        }
         $this->template->title = 'User &raquo; show info';
         $this->template->content = $view;
     }
@@ -26,8 +31,8 @@ class Controller_User extends Controller_Myapp
         $view = Fuel\Core\View::forge('user/user_info_edit');
 
         $data = Model_User::find_one_by('id', $this->current_user->id);
-
         $view->set('user', $data);
+       
         if ($post = Fuel\Core\Input::post()) {
 
             $val = Fuel\Core\Validation::forge();
@@ -58,8 +63,13 @@ class Controller_User extends Controller_Myapp
                     rename(DOCROOT . 'files/' . $icon_data[0]['saved_as'], DOCROOT . 'files/' . $post['image']);
                 }
                 if (isset($post['hobby'])) {
-                    $post['hobby'] = implode(',', $post['hobby']);
+                    //update table user_hobby
+                    Model_UserHobby::delete_by_field('user_id', $this->current_user->id);
+                    foreach ($post['hobby'] as $value) {
+                        $user_hobby = Model_UserHobby::save_item($this->current_user->id, $value);
+                    }
                 }
+                unset($post['hobby']);
                 $data->set($post);
                 try {
                     $data->save();
@@ -73,6 +83,11 @@ class Controller_User extends Controller_Myapp
 
                 $view->set('errors', $errors);
             }
+        }
+         //hoppy
+        $hoppies = Model_Hobby::find_all();
+        if($hoppies){
+             $view->set('hoppies', $hoppies);
         }
 
         $this->template->title = 'User &raquo; Edit info';
@@ -146,15 +161,15 @@ class Controller_User extends Controller_Myapp
                 $val = Fuel\Core\Validation::forge();
                 $val->add_callable(new MyRules());
                 $val->add('email', 'Email')->add_rule('match_value', $post['confirm_email'], true)->add_rule('unique', 'users.email');
-                if($val->run()){
+                if ($val->run()) {
                     $data->email = $post['email'];
                     $data->active = 0;
                     $code = $this->generate_code($post['email']);
                     $data->code = $code;
                     $data->save();
-                    $this->send_mail('datht83@gmail', $post['email'], 'Hi user ' , 'Please click this link to active your account ' . 'http://' . $_SERVER['HTTP_HOST'] . '/auth/activation_complete/' . $code, 'dat huynh','User');
+                    $this->send_mail('datht83@gmail', $post['email'], 'Hi user ', 'Please click this link to active your account ' . 'http://' . $_SERVER['HTTP_HOST'] . '/auth/activation_complete/' . $code, 'dat huynh', 'User');
                     $edit_email_success = true;
-                }  else {
+                } else {
                     foreach ($val->error_message() as $field => $message) {
                         $errors[] = $message;
                     }

@@ -18,6 +18,9 @@
     "require": {
         "php": ">=5.3.3",
         "monolog/monolog": "1.5.*",
+        "webpay/webpay": "dev-master",
+        "phpunit/phpunit": "4.0.*",
+        "stripe/stripe-php": "dev-master",
         "fuelphp/upload": "2.0.1"
     },
     "suggest": {

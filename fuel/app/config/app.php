@@ -6,6 +6,6 @@ return array(
         'Tue'   => array(2),
         'Wed' => array(3),
         'Thu'  => array(4),
-        'Fri'    => array(5),
+        'Fri'    => array(6),
     )
 );
